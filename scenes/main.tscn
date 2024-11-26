@@ -1,0 +1,222 @@
+[gd_scene load_steps=22 format=3 uid="uid://bs54wwq38axhi"]
+
+[ext_resource type="Script" path="res://scripts/spaceship_main.gd" id="1_1cjgn"]
+[ext_resource type="Script" path="res://scripts/playermain.gd" id="1_7gr8j"]
+[ext_resource type="Texture2D" uid="uid://d20hgb2heed1o" path="res://server-icon.png" id="2_1dkag"]
+[ext_resource type="Texture2D" uid="uid://dstl222u3ilx3" path="res://HDR_blue_nebulae-1.png" id="2_5tfir"]
+[ext_resource type="PackedScene" uid="uid://dmk8d2w4kvvcu" path="res://scenes/systems_overlay.tscn" id="3_u6c0h"]
+[ext_resource type="Script" path="res://scripts/temp_hud_controller.gd" id="5_7ms82"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfw32"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iqivm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_til8g"]
+size = Vector3(4, 1, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_85262"]
+size = Vector3(6, 1, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_555xm"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cefbj"]
+viewport_path = NodePath("Spaceship Main/Cockpit/Monitors/System monitor/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3xvdw"]
+viewport_path = NodePath("Spaceship Main/Cockpit/Monitors/Front Camera/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lusui"]
+viewport_path = NodePath("Spaceship Main/Cockpit/Monitors/Weapons monitor/SubViewport")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rqa0s"]
+panorama = ExtResource("2_5tfir")
+
+[sub_resource type="Sky" id="Sky_505v0"]
+sky_material = SubResource("PanoramaSkyMaterial_rqa0s")
+
+[sub_resource type="Environment" id="Environment_4b0dj"]
+background_mode = 2
+sky = SubResource("Sky_505v0")
+ambient_light_energy = 2.0
+ssao_enabled = true
+ssao_intensity = 4.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ssi3v"]
+font_size = 32
+font_color = Color(1, 0.321569, 0.219608, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u44dx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hn1bt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_eu2bo"]
+material = SubResource("StandardMaterial3D_hn1bt")
+
+[node name="Main" type="Node3D"]
+
+[node name="Spaceship Main" type="CharacterBody3D" parent="."]
+motion_mode = 1
+script = ExtResource("1_1cjgn")
+
+[node name="Player" type="CharacterBody3D" parent="Spaceship Main"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.52985, -0.367095)
+collision_mask = 11
+motion_mode = 1
+floor_stop_on_slope = false
+script = ExtResource("1_7gr8j")
+
+[node name="Camera3D" type="Camera3D" parent="Spaceship Main/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+current = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Spaceship Main/Player/Camera3D"]
+spot_angle = 35.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spaceship Main/Player"]
+shape = SubResource("CapsuleShape3D_tfw32")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spaceship Main/Player"]
+mesh = SubResource("CapsuleMesh_iqivm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spaceship Main"]
+shape = SubResource("BoxShape3D_til8g")
+
+[node name="Platform" type="Node3D" parent="Spaceship Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spaceship Main/Platform"]
+mesh = SubResource("BoxMesh_85262")
+skeleton = NodePath("../..")
+
+[node name="Cockpit" type="Node3D" parent="Spaceship Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67008, 2.36618)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spaceship Main/Cockpit"]
+transform = Transform3D(6, 0, 0, 0, 3, 0, 0, 0, 0.5, 0, 0, 0.4)
+mesh = SubResource("BoxMesh_555xm")
+
+[node name="Monitors" type="Node3D" parent="Spaceship Main/Cockpit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.231172, 0)
+
+[node name="System monitor" type="Sprite3D" parent="Spaceship Main/Cockpit/Monitors"]
+transform = Transform3D(0.208884, 0, -0.146262, 0, 0.255, 0, 0.146262, 0, 0.208884, -1.56981, 0.5, -0.542143)
+flip_h = true
+texture = SubResource("ViewportTexture_cefbj")
+
+[node name="SubViewport" type="SubViewport" parent="Spaceship Main/Cockpit/Monitors/System monitor"]
+size = Vector2i(648, 648)
+
+[node name="Systems" parent="Spaceship Main/Cockpit/Monitors/System monitor/SubViewport" instance=ExtResource("3_u6c0h")]
+
+[node name="Front Camera" type="Sprite3D" parent="Spaceship Main/Cockpit/Monitors"]
+transform = Transform3D(0.255, 0, 0, 0, 0.255, 0, 0, 0, 0.255, 0, 0.5, -0.05)
+flip_h = true
+texture = SubResource("ViewportTexture_3xvdw")
+
+[node name="SubViewport" type="SubViewport" parent="Spaceship Main/Cockpit/Monitors/Front Camera"]
+size = Vector2i(648, 648)
+
+[node name="Front_camera" type="Camera3D" parent="Spaceship Main/Cockpit/Monitors/Front Camera/SubViewport"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.6, 3.17546)
+fov = 90.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Spaceship Main/Cockpit/Monitors/Front Camera/SubViewport/Front_camera"]
+light_energy = 8.0
+spot_range = 100.0
+spot_angle_attenuation = 0.125
+
+[node name="Weapons monitor" type="Sprite3D" parent="Spaceship Main/Cockpit/Monitors"]
+transform = Transform3D(0.208884, 0, 0.146262, 0, 0.255, 0, -0.146262, 0, 0.208884, 1.57, 0.5, -0.542)
+flip_h = true
+texture = SubResource("ViewportTexture_lusui")
+
+[node name="SubViewport" type="SubViewport" parent="Spaceship Main/Cockpit/Monitors/Weapons monitor"]
+size = Vector2i(648, 648)
+
+[node name="Sprite2D" type="Sprite2D" parent="Spaceship Main/Cockpit/Monitors/Weapons monitor/SubViewport"]
+position = Vector2(300, 300)
+scale = Vector2(10, 10)
+texture = ExtResource("2_1dkag")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4b0dj")
+
+[node name="Hud" type="Control" parent="WorldEnvironment"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_7ms82")
+
+[node name="MarginContainer" type="MarginContainer" parent="WorldEnvironment/Hud"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="WorldEnvironment/Hud/MarginContainer"]
+position = Vector2(213, 58)
+texture = ExtResource("2_1dkag")
+
+[node name="Toggle Controls" type="Label" parent="WorldEnvironment/Hud/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Z = Thrust Brake
+X = Rotation Brake
+C = Buckle Toggle
+P = Engage 4D alignment park"
+
+[node name="Maneuver Controls" type="Label" parent="WorldEnvironment/Hud/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Numpad 7 & 9 = Roll
+Numpad 4 & 6 = Yaw
+Numpad 8 & 2 = Pitch
+Up Arrow & Down Arrow = Thrust"
+horizontal_alignment = 2
+
+[node name="Gameplay Guide" type="Label" parent="WorldEnvironment/Hud/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "You must be buckled to maneuver
+Engage park to unbuckle"
+vertical_alignment = 2
+
+[node name="buckle toast" type="Label" parent="WorldEnvironment/Hud/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Buckled"
+label_settings = SubResource("LabelSettings_ssi3v")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.965926, 0.224144, 0.129409, 0, -0.5, 0.866025, 0.258819, -0.836516, -0.482963, 1.47146, 10.8467, 0.104916)
+shadow_enabled = true
+directional_shadow_blend_splits = true
+directional_shadow_pancake_size = 0.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22993, 12.2346)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_u44dx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_eu2bo")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1447, 1.36049, 3.17816)
+mesh = SubResource("BoxMesh_eu2bo")

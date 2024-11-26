@@ -1,0 +1,156 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmk8d2w4kvvcu"]
+
+[ext_resource type="Script" path="res://scenes/systems_overlay_manager.gd" id="1_y26mr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ojrg"]
+line_spacing = 6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_37tba"]
+font_size = 24
+
+[node name="System overview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_y26mr")
+metadata/_edit_use_anchors_ = true
+
+[node name="Parktimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment_horizontal = 0
+alignment_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="AspectRatioContainer/PanelContainer"]
+layout_mode = 2
+split_offset = 250
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="System overview" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "System overview:
+"
+
+[node name="HSeparator" type="HSeparator" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="Systems" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Reactor
+4D Main drive
+Life support
+Electrical distributor
+Flight assist
+Cooling loop"
+label_settings = SubResource("LabelSettings_5ojrg")
+
+[node name="MarginContainer3" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 55
+
+[node name="park bar" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer3"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+text = "Park in progress: "
+label_settings = SubResource("LabelSettings_37tba")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Reactor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 30.0
+offset_right = 380.0
+offset_bottom = 57.0
+size_flags_vertical = 8
+value = 100.0
+
+[node name="Engine condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 60.0
+offset_right = 380.0
+offset_bottom = 87.0
+size_flags_vertical = 8
+value = 100.0
+allow_greater = true
+
+[node name="Life Support condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 90.0
+offset_right = 380.0
+offset_bottom = 117.0
+size_flags_vertical = 8
+value = 100.0
+allow_greater = true
+allow_lesser = true
+
+[node name="Distributor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 120.0
+offset_right = 380.0
+offset_bottom = 147.0
+size_flags_vertical = 8
+value = 100.0
+allow_lesser = true
+
+[node name="Flight Assist condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 150.0
+offset_right = 380.0
+offset_bottom = 177.0
+size_flags_vertical = 8
+value = 100.0
+
+[node name="Cooling condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+layout_mode = 1
+offset_top = 180.0
+offset_right = 380.0
+offset_bottom = 207.0
+size_flags_vertical = 8
+value = 100.0
+
+[node name="Park progress" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+visible = false
+offset_top = 260.0
+offset_right = 380.0
+offset_bottom = 300.0
+size_flags_vertical = 8
+max_value = 5.0
+value = 5.0
+fill_mode = 1
+show_percentage = false
+
+[connection signal="timeout" from="Parktimer" to="." method="_on_parktimer_timeout"]

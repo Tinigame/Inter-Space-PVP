@@ -1,0 +1,101 @@
+[gd_scene load_steps=15 format=3 uid="uid://bs54wwq38axhi"]
+
+[ext_resource type="Script" path="res://scripts/spaceship_main.gd" id="1_1cjgn"]
+[ext_resource type="Script" path="res://scripts/playermain.gd" id="1_7gr8j"]
+[ext_resource type="Texture2D" uid="uid://d20hgb2heed1o" path="res://server-icon.png" id="2_1dkag"]
+[ext_resource type="Texture2D" uid="uid://dstl222u3ilx3" path="res://HDR_blue_nebulae-1.png" id="2_5tfir"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfw32"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iqivm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_til8g"]
+size = Vector3(6, 1, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oe3pt"]
+size = Vector3(1, 1, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_85262"]
+size = Vector3(6, 1, 8)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rqa0s"]
+panorama = ExtResource("2_5tfir")
+
+[sub_resource type="Sky" id="Sky_505v0"]
+sky_material = SubResource("PanoramaSkyMaterial_rqa0s")
+
+[sub_resource type="Environment" id="Environment_4b0dj"]
+background_mode = 2
+sky = SubResource("Sky_505v0")
+ambient_light_energy = 2.0
+ssao_enabled = true
+ssao_intensity = 4.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u44dx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_eu2bo"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Spaceship Main" type="CharacterBody3D" parent="."]
+motion_mode = 1
+script = ExtResource("1_1cjgn")
+
+[node name="Player" type="CharacterBody3D" parent="Spaceship Main"]
+transform = Transform3D(-0.994187, 0, 0.10767, 0, 1, 0, -0.10767, 0, -0.994187, 0, 1.52985, 2.52923)
+collision_mask = 11
+motion_mode = 1
+floor_stop_on_slope = false
+script = ExtResource("1_7gr8j")
+
+[node name="Camera3D" type="Camera3D" parent="Spaceship Main/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Spaceship Main/Player/Camera3D"]
+light_energy = 10.0
+spot_range = 25.4985
+spot_angle = 32.5263
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spaceship Main/Player"]
+shape = SubResource("CapsuleShape3D_tfw32")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spaceship Main/Player"]
+mesh = SubResource("CapsuleMesh_iqivm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spaceship Main"]
+shape = SubResource("BoxShape3D_til8g")
+
+[node name="Platform" type="Node3D" parent="Spaceship Main"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Spaceship Main/Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.49183)
+mesh = SubResource("BoxMesh_oe3pt")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spaceship Main/Platform"]
+mesh = SubResource("BoxMesh_85262")
+skeleton = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4b0dj")
+
+[node name="Sprite2D" type="Sprite2D" parent="WorldEnvironment"]
+position = Vector2(104, 70)
+texture = ExtResource("2_1dkag")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.998328, -0.0403118, 0.0414333, 0.029338, 0.264263, 0.964004, -0.0498101, 0.963608, -0.262638, 1.47146, 10.8467, 0.104916)
+shadow_enabled = true
+directional_shadow_blend_splits = true
+directional_shadow_pancake_size = 0.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22993, 12.2346)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_u44dx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_eu2bo")
