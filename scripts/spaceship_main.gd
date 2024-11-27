@@ -1,7 +1,8 @@
 extends CharacterBody3D
 
-@onready var front_camera: Camera3D = $"Cockpit/Monitors/Front Camera/SubViewport/Front_camera"
-
+@onready var camera: Camera3D = $"Cockpit/Monitors/Front Camera/SubViewport/view_camera"
+@onready var camscreen = $"Spaceship Main/Cockpit/Monitors/System monitor/SubViewport"
+@onready var front_camera: Camera3D = $Cockpit/Monitors/Cameras/Front_Camera
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
@@ -104,9 +105,5 @@ func park_ship():
 		rotation = Vector3(0, 0, 0)
 
 func stick_camera():
-	front_camera.position = self.position
-	front_camera.position.y = self.position.y + 1.6
-	front_camera.position.z = self.position.z + 3
-	
-	front_camera.global_rotation_degrees = -self.global_rotation_degrees
-	front_camera.global_rotation_degrees.y = self.global_rotation_degrees.y + 180
+	camera.global_position = front_camera.global_position
+	camera.global_rotation_degrees = front_camera.global_rotation_degrees

@@ -144,6 +144,7 @@ value = 100.0
 
 [node name="Park progress" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
 visible = false
+layout_mode = 0
 offset_top = 260.0
 offset_right = 380.0
 offset_bottom = 300.0
