@@ -21,7 +21,7 @@ script = ExtResource("1_y26mr")
 metadata/_edit_use_anchors_ = true
 
 [node name="Parktimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 4.0
 one_shot = true
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
@@ -76,10 +76,39 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 55
 
 [node name="park bar" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer3"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 1
 text = "Park in progress: "
+label_settings = SubResource("LabelSettings_37tba")
+
+[node name="MarginContainer4" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 55
+
+[node name="Rotation Brake" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer4"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Rotation Brake ON"
+label_settings = SubResource("LabelSettings_37tba")
+
+[node name="MarginContainer5" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 55
+
+[node name="Thrust Brake" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer5"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Thrust Brake ON"
 label_settings = SubResource("LabelSettings_37tba")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer"]
@@ -143,14 +172,13 @@ size_flags_vertical = 8
 value = 100.0
 
 [node name="Park progress" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
-visible = false
 layout_mode = 0
 offset_top = 260.0
 offset_right = 380.0
 offset_bottom = 300.0
 size_flags_vertical = 8
-max_value = 5.0
-value = 5.0
+max_value = 4.0
+value = 4.0
 fill_mode = 1
 show_percentage = false
 

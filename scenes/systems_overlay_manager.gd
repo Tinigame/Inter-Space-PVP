@@ -4,6 +4,9 @@ extends Control
 @onready var park_progress: ProgressBar = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control/Park progress"
 @onready var parktimer: Timer = $Parktimer
 
+@onready var rotation_brake: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer4/Rotation Brake"
+@onready var thrust_brake: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer5/Thrust Brake"
+
 var parking = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -13,10 +16,22 @@ func _process(_delta: float) -> void:
 		park_bar.show()
 		park_progress.show()
 		park_progress.value = 0
+		park_progress.max_value = parktimer.wait_time
 		parking = true
-
 	if parking:
 		animatepark()
+	
+	if Input.is_action_just_pressed("Thrust_Brake_Toggle"):
+		if thrust_brake.visible == false:
+			thrust_brake.show()
+		else:
+			thrust_brake.hide()
+	
+	if Input.is_action_just_pressed("Zero_Rotation_Toggle"):
+		if rotation_brake.visible == false:
+			rotation_brake.show()
+		else:
+			rotation_brake.hide()
 
 func animatepark():
 	park_progress.value = parktimer.time_left

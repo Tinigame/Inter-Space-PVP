@@ -96,12 +96,15 @@ func park_ship():
 		rotation.y = lerp_angle(rotation.y, 0.0, rotation_speed / 2)
 		rotation.z = lerp_angle(rotation.z, 0.0, rotation_speed / 2)
 		
+		velocity.x = move_toward(velocity.x, 0.0, Forward_deceleration)
+		velocity.y = move_toward(velocity.y, 0.0, Forward_deceleration)
+		velocity.z = move_toward(velocity.z, 0.0, Forward_deceleration)
 		# Stop parking when close enough to zero rotation
 		if rotation.x == 0 and rotation.y == 0 and rotation.z == 0:
 			Globals.park_engaging = false
 			print("ship has parked")
 
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(4.0).timeout
 		rotation = Vector3(0, 0, 0)
 
 func stick_camera():
