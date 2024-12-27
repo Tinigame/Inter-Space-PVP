@@ -1,7 +1,6 @@
 extends CharacterBody3D
 
 @onready var camera: Camera3D = $"Cockpit/Monitors/Front Camera/SubViewport/view_camera"
-@onready var camscreen = $"Spaceship Main/Cockpit/Monitors/System monitor/SubViewport"
 @onready var front_camera: Camera3D = $Cockpit/Monitors/Cameras/Front_Camera
 
 const SPEED = 5.0
@@ -9,7 +8,7 @@ const JUMP_VELOCITY = 4.5
 var Forward_acceleration = 10.0
 var Forward_deceleration = 0.1
 
-var rotation_speed = 0.05
+var rotation_speed = 0.025
 var unrotation_speed = 0.001
 var rotation_velocity_z = 0
 var rotation_velocity_y = 0
@@ -87,8 +86,13 @@ func _physics_process(delta: float) -> void:
 		park_ship()
 	
 	stick_camera()
-	
 	move_and_slide()
+	
+	update_ship_velocity_globals()
+
+func update_ship_velocity_globals():
+		Globals.ship_velocity = self.velocity
+		Globals.ship_rotational_velocity = Vector3(rotation_velocity_x, rotation_velocity_y, rotation_velocity_z)
 
 func park_ship():
 		# Smoothly interpolate the rotation toward the target

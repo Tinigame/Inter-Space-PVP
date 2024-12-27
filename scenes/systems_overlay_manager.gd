@@ -1,16 +1,21 @@
 extends Control
 
 @onready var park_bar: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer3/park bar"
-@onready var park_progress: ProgressBar = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control/Park progress"
+@onready var park_progress: ProgressBar = $"AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control/Park progress"
+
 @onready var parktimer: Timer = $Parktimer
 
 @onready var rotation_brake: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer4/Rotation Brake"
 @onready var thrust_brake: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer/MarginContainer5/Thrust Brake"
 
+@onready var velocity_display: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer/Velocity Display"
+@onready var r_velocity_display: Label = $"AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer/RVelocity Display"
+
 var parking = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	update_velocity_display()
 	if Input.is_action_just_pressed("Engage_Park"):
 		parktimer.start()
 		park_bar.show()
@@ -49,3 +54,8 @@ func _on_parktimer_timeout() -> void:
 		await get_tree().create_timer(0.2).timeout
 	park_bar.hide()
 	park_progress.hide()
+
+func update_velocity_display():
+	velocity_display.text = str("Velocity: ", Globals.ship_velocity)
+	r_velocity_display.text = str("Rotational velocity: ", Globals.ship_rotational_velocity)
+	print(Globals.ship_velocity, " PAUSE " , Globals.ship_rotational_velocity)

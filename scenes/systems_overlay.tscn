@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmk8d2w4kvvcu"]
+[gd_scene load_steps=5 format=3 uid="uid://dmk8d2w4kvvcu"]
 
 [ext_resource type="Script" path="res://scenes/systems_overlay_manager.gd" id="1_y26mr"]
 
@@ -6,6 +6,9 @@
 line_spacing = 6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_37tba"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_6pgqa"]
 font_size = 24
 
 [node name="System overview" type="Control"]
@@ -111,15 +114,17 @@ size_flags_vertical = 0
 text = "Thrust Brake ON"
 label_settings = SubResource("LabelSettings_37tba")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2"]
+[node name="Control" type="Control" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2"]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Reactor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Reactor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 30.0
 offset_right = 380.0
@@ -127,7 +132,7 @@ offset_bottom = 57.0
 size_flags_vertical = 8
 value = 100.0
 
-[node name="Engine condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Engine condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 60.0
 offset_right = 380.0
@@ -136,7 +141,7 @@ size_flags_vertical = 8
 value = 100.0
 allow_greater = true
 
-[node name="Life Support condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Life Support condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 90.0
 offset_right = 380.0
@@ -146,7 +151,7 @@ value = 100.0
 allow_greater = true
 allow_lesser = true
 
-[node name="Distributor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Distributor condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 120.0
 offset_right = 380.0
@@ -155,7 +160,7 @@ size_flags_vertical = 8
 value = 100.0
 allow_lesser = true
 
-[node name="Flight Assist condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Flight Assist condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 150.0
 offset_right = 380.0
@@ -163,7 +168,7 @@ offset_bottom = 177.0
 size_flags_vertical = 8
 value = 100.0
 
-[node name="Cooling condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Cooling condition" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 1
 offset_top = 180.0
 offset_right = 380.0
@@ -171,7 +176,7 @@ offset_bottom = 207.0
 size_flags_vertical = 8
 value = 100.0
 
-[node name="Park progress" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/VBoxContainer2/Control"]
+[node name="Park progress" type="ProgressBar" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer2/Control"]
 layout_mode = 0
 offset_top = 260.0
 offset_right = 380.0
@@ -181,5 +186,25 @@ max_value = 4.0
 value = 4.0
 fill_mode = 1
 show_percentage = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+
+[node name="Velocity Display" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Velocity: 9999"
+label_settings = SubResource("LabelSettings_6pgqa")
+
+[node name="RVelocity Display" type="Label" parent="AspectRatioContainer/PanelContainer/HSplitContainer/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Rotational velocity: 9999"
+label_settings = SubResource("LabelSettings_6pgqa")
 
 [connection signal="timeout" from="Parktimer" to="." method="_on_parktimer_timeout"]
